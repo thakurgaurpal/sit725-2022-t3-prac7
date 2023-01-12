@@ -3,7 +3,7 @@
 //         title: "Pic2",
 //         image: "images/2.png",
 //         link: "About Pic 2",
-//         desciption: "Demo desciption about Picture 2"
+//         description: "Demo description about Picture 2"
 //     },
 //     {
 //         title: "Pic3",
@@ -13,6 +13,13 @@
 //     }
 // ]
 
+// const getProjects = () => {
+//     $.get('/api/projects',(response) => {
+//         if(response.statusCode==200){
+//             addCards(response.data);
+//         }
+//     })
+// }
 const getProjects = () => {
     $.get('/api/projects',(response) => {
         if(response.statusCode==200){
@@ -21,19 +28,32 @@ const getProjects = () => {
     })
 }
 
-
 const clickMe = () => {
     alert("Thanks for clicking me. Hope you have a nice day!")
 }
 
 const submitForm = () => {
     let formData = {};
-    formData.first_name = $('#first_name').val();
-    formData.last_name = $('#last_name').val();
-    formData.password = $('#password').val();
-    formData.email = $('#email').val();
+    formData.title = $('#title').val();
+    formData.image = $('#image').val();
+    formData.link = $('#link').val();
+    formData.desciption = $('#description').val();
 
     console.log("Form Data Submitted: ", formData);
+    addProjectToApp(formData);
+}
+
+//ajax
+const addProjectToApp =(project) =>{
+    $.ajax({
+        url: '/api/projects',
+        data: project,
+        type: 'POST',
+        success: (result) => {
+            alert(result.message);
+            location.reload(); //it automatically reloads the page
+        }
+    })
 }
 
 const addCards = (items) => {
